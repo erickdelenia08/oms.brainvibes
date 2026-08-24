@@ -47,10 +47,10 @@ export default function ParentDashboard() {
 
   return (
     <>
-      <TopHeader 
-        title="Ibu Ratna" 
-        subtitle="Welcome back! Here is your student's progress." 
-        role="PARENT" 
+      <TopHeader
+        title="Ibu Ratna"
+        subtitle="Welcome back! Here is your student's progress."
+        role="PARENT"
       />
 
       <div className="flex flex-col gap-section-gap max-w-3xl pb-24 md:pb-0">
@@ -72,7 +72,7 @@ export default function ParentDashboard() {
           {upcomingSessions.map(session => (
             <div key={session.id} className="bg-surface-container-lowest rounded-xl border border-outline-variant/50 shadow-sm p-card-padding flex flex-col gap-4 relative overflow-hidden transition-all duration-300">
               <div className="absolute top-0 left-0 w-1 h-full bg-secondary-container"></div>
-              
+
               <div className="flex justify-between items-start">
                 <div className="flex flex-col gap-1">
                   <span className="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
@@ -81,7 +81,7 @@ export default function ParentDashboard() {
                   <h3 className="font-label-md text-label-md text-on-surface">{session.subject}</h3>
                   <span className="font-body-sm text-body-sm text-on-surface-variant">Student: {session.student} • Tutor: {session.tutor}</span>
                 </div>
-                <Badge variant="outline" className="text-secondary-fixed-dim border-secondary-fixed-dim">Upcoming</Badge>
+                <Badge variant="default" className="text-secondary-fixed-dim border-secondary-fixed-dim">Upcoming</Badge>
               </div>
 
               <div className="flex items-center gap-2 font-body-sm text-body-sm text-on-surface-variant">
@@ -90,7 +90,7 @@ export default function ParentDashboard() {
               </div>
 
               <div className="flex gap-2 mt-2">
-                <button 
+                <button
                   onClick={() => handleOpenReschedule(session.id)}
                   className="w-full flex items-center justify-center gap-2 text-on-surface-variant font-label-md text-label-md h-[44px] rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors shadow-sm"
                 >
@@ -107,7 +107,7 @@ export default function ParentDashboard() {
             <h2 className="font-h3 text-h3 text-on-background">Active Packages & Quota</h2>
           </div>
           <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/50 shadow-sm p-card-padding transition-shadow hover:shadow-md">
-            
+
             <div className="flex justify-between items-start mb-4">
               <div>
                 <h3 className="font-label-md text-label-md text-on-surface">BrainVibes Math 8x</h3>
@@ -115,16 +115,16 @@ export default function ParentDashboard() {
               </div>
               <Badge variant="default" className="bg-success hover:bg-success/90 text-on-success">Active</Badge>
             </div>
-            
+
             <div className="mb-2 flex justify-between items-end">
               <span className="font-h2 text-h2 text-primary">5<span className="font-h3 text-h3 text-on-surface-variant/60">/8</span></span>
               <span className="font-label-sm text-label-sm text-on-surface-variant">Sessions Used</span>
             </div>
-            
+
             <div className="w-full bg-surface-variant rounded-full h-2.5 mb-1 overflow-hidden">
               <div className="bg-primary h-2.5 rounded-full" style={{ width: '62.5%' }}></div>
             </div>
-            
+
             <div className="flex justify-between items-center font-label-sm text-label-sm text-on-surface-variant mt-3">
               <span>Expires: 12 Nov 2026 (12 days left)</span>
               <button className="text-primary font-label-md text-label-md hover:underline transition-all">Book More</button>
@@ -140,13 +140,13 @@ export default function ParentDashboard() {
               View All <ChevronRight size={16} />
             </button>
           </div>
-          
+
           <div className="relative border-l-2 border-surface-variant ml-4 space-y-6">
-            
+
             {/* Timeline Item 1 */}
             <div className="relative pl-6">
               <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-primary border-4 border-background"></div>
-              
+
               <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/50 shadow-sm p-4 hover:border-primary-container/30 transition-colors">
                 <div className="flex justify-between items-start mb-2">
                   <span className="font-label-sm text-label-sm text-on-surface-variant">12 Oct 2026 • 15:00 - 16:30</span>
@@ -158,13 +158,13 @@ export default function ParentDashboard() {
                     </span>
                   </div>
                 </div>
-                
+
                 <h4 className="font-label-md text-label-md text-on-surface mb-1">Algebraic Expressions</h4>
                 <p className="font-body-sm text-body-sm text-on-surface-variant mb-3">Tutor: Pak Budi • Student: Ahmad</p>
-                
+
                 <div className="bg-surface-container-low rounded-lg p-3">
                   <p className="font-body-sm text-body-sm text-on-surface-variant italic">
-                    "Ahmad showed great improvement in understanding linear equations today. Keep practicing the worksheets provided."
+                    &ldquo;Ahmad showed great improvement in understanding linear equations today. Keep practicing the worksheets provided.&rdquo;
                   </p>
                 </div>
               </div>
@@ -173,7 +173,7 @@ export default function ParentDashboard() {
             {/* Timeline Item 2 */}
             <div className="relative pl-6">
               <div className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-surface-variant border-4 border-background"></div>
-              
+
               <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/50 shadow-sm p-4 opacity-80 hover:opacity-100 transition-opacity">
                 <div className="flex justify-between items-start mb-2">
                   <span className="font-label-sm text-label-sm text-on-surface-variant">05 Oct 2026 • 15:00 - 16:30</span>
@@ -185,13 +185,13 @@ export default function ParentDashboard() {
                     </span>
                   </div>
                 </div>
-                
+
                 <h4 className="font-label-md text-label-md text-on-surface mb-1">Introduction to Geometry</h4>
                 <p className="font-body-sm text-body-sm text-on-surface-variant mb-3">Tutor: Pak Budi • Student: Ahmad</p>
-                
+
                 <div className="bg-surface-container-low rounded-lg p-3">
                   <p className="font-body-sm text-body-sm text-on-surface-variant italic">
-                    "Good session. Needs a bit more focus on calculating areas of irregular shapes."
+                    &ldquo;Good session. Needs a bit more focus on calculating areas of irregular shapes.&rdquo;
                   </p>
                 </div>
               </div>
@@ -201,9 +201,9 @@ export default function ParentDashboard() {
         </section>
       </div>
 
-      <RescheduleModal 
-        isOpen={activeModal === "RESCHEDULE"} 
-        onClose={() => setActiveModal("NONE")} 
+      <RescheduleModal
+        isOpen={activeModal === "RESCHEDULE"}
+        onClose={() => setActiveModal("NONE")}
         onSubmit={handleRescheduleSubmit}
         sessionTitle={selectedSession ? `${selectedSession.subject} for ${selectedSession.student}` : ""}
       />
