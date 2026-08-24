@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BrainVibes OMS - Package &amp; Quota Ledger</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#c8c5d0",
+                        "on-primary": "#ffffff",
+                        "outline": "#787680",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "on-secondary-container": "#684000",
+                        "on-primary-fixed-variant": "#444173",
+                        "primary-fixed-dim": "#c4c1fb",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#47464f",
+                        "surface-tint": "#5b598c",
+                        "secondary-container": "#fea619",
+                        "on-secondary-fixed": "#2a1700",
+                        "on-tertiary-fixed": "#250059",
+                        "secondary": "#855300",
+                        "tertiary": "#110031",
+                        "surface-dim": "#cfdaf2",
+                        "surface-container-low": "#f0f3ff",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "primary": "#070235",
+                        "inverse-on-surface": "#ecf1ff",
+                        "primary-fixed": "#e3dfff",
+                        "tertiary-fixed": "#ebddff",
+                        "surface-container-highest": "#d8e3fb",
+                        "on-background": "#111c2d",
+                        "primary-container": "#1e1b4b",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#ffddb8",
+                        "surface-bright": "#f9f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#c4c1fb",
+                        "on-tertiary-container": "#9e6bff",
+                        "surface-container-high": "#dee8ff",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface": "#f9f9ff",
+                        "tertiary-container": "#2d0069",
+                        "on-surface": "#111c2d",
+                        "on-primary-fixed": "#181445",
+                        "background": "#f9f9ff",
+                        "tertiary-fixed-dim": "#d3bbff",
+                        "on-tertiary-fixed-variant": "#5b00c5",
+                        "surface-variant": "#d8e3fb",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#e7eeff",
+                        "on-primary-container": "#8683ba",
+                        "inverse-surface": "#263143"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "card-padding": "20px",
+                        "section-gap": "32px",
+                        "base-unit": "4px",
+                        "container-margin": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "h1-mobile": ["Plus Jakarta Sans"],
+                        "body-sm": ["Inter"],
+                        "h3": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "h1": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "h2": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "h1-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "h3": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md h-screen overflow-hidden flex selection:bg-primary selection:text-on-primary">
+<!-- Desktop Sidebar -->
+<nav class="hidden md:flex flex-col w-[280px] h-full p-4 bg-primary dark:bg-primary-container shadow-md z-40 fixed left-0 top-0">
+<div class="mb-8 px-2">
+<h1 class="font-h3 text-h3 font-bold text-on-primary">BrainVibes</h1>
+<p class="font-body-sm text-body-sm text-on-primary/70 mt-1">Operational Management</p>
+</div>
+<button class="w-full bg-secondary text-on-secondary rounded-lg py-3 px-4 font-label-md text-label-md flex items-center justify-center gap-2 mb-6 hover:bg-secondary/90 transition-colors">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">add</span>
+            Schedule Session
+        </button>
+<div class="flex flex-col gap-1 flex-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary/80 hover:bg-primary-container hover:text-secondary-fixed-dim transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary/80 hover:bg-primary-container hover:text-secondary-fixed-dim transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">calendar_month</span>
+<span class="font-label-md text-label-md">Schedule</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary/80 hover:bg-primary-container hover:text-secondary-fixed-dim transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">group</span>
+<span class="font-label-md text-label-md">Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary/80 hover:bg-primary-container hover:text-secondary-fixed-dim transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">school</span>
+<span class="font-label-md text-label-md">Tutors</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary-fixed font-bold translate-x-1 transition-transform group" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-label-md text-label-md">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary/80 hover:bg-primary-container hover:text-secondary-fixed-dim transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">history_edu</span>
+<span class="font-label-md text-label-md">Attendance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary/80 hover:bg-primary-container hover:text-secondary-fixed-dim transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">list_alt</span>
+<span class="font-label-md text-label-md">Audit</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary/80 hover:bg-primary-container hover:text-secondary-fixed-dim transition-all group mt-auto" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:scale-110 transition-transform">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-[280px] h-full flex flex-col relative pb-16 md:pb-0">
+<!-- Mobile Top Nav -->
+<header class="md:hidden flex justify-between items-center w-full px-container-margin py-base-unit h-16 bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container shadow-sm sticky top-0 z-30">
+<div class="text-h3 font-h3 font-bold text-on-primary dark:text-on-primary-container">BrainVibes OMS</div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-primary-container/50 transition-colors p-2 rounded-full relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-secondary rounded-full border border-primary"></span>
+</button>
+<img alt="Admin profile photo" class="w-8 h-8 rounded-full border-2 border-primary-container object-cover" data-alt="A small, circular profile picture of an educational administrator. A smiling professional in business casual attire against a clean, light blue background. High resolution, bright lighting, conveying trust and competence in a corporate modern style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOnpL0syVw39-5krD3KoctpNteclMZXIrg2WQR4v9oFmo3pQCwiy7fmzXpfS1bHoN4A0KKmNurF7sx3KZ3cuoK2LCU4XMNnIB3fvVg3VGBKzWNeuBxq9f9zU5-3D5fBQaBSebCSneRyyKFcoccBme5HLQ16LuKdG2ebvJHozHYtHUMNle-AbFpkPku24eHRhz_S4XZLO3jwsng2I1B-GDWkDVm11l0zeViGbLXhxwMLc18T53QS_BD"/>
+</div>
+</header>
+<!-- Desktop Top App Bar (Header) -->
+<header class="hidden md:flex justify-between items-center w-full px-container-margin py-base-unit h-16 bg-surface border-b border-outline-variant/30 sticky top-0 z-30 shadow-sm">
+<h2 class="font-h2 text-h2 text-on-surface">Package &amp; Quota Ledger</h2>
+<div class="flex items-center gap-6">
+<!-- Tabs -->
+<div class="flex space-x-1 bg-surface-variant p-1 rounded-lg">
+<button class="px-4 py-1.5 rounded-md font-label-md text-label-md bg-surface text-on-surface shadow-sm">Ledger</button>
+<button class="px-4 py-1.5 rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors">Verifications <span class="ml-1 bg-error text-on-error px-1.5 py-0.5 rounded-full text-[10px] font-bold">3</span></button>
+</div>
+<div class="w-px h-6 bg-outline-variant/50"></div>
+<!-- Search -->
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full pl-9 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full font-body-sm text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Search student or package..." type="text"/>
+</div>
+<div class="w-px h-6 bg-outline-variant/50"></div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-surface-variant p-2 rounded-full relative transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-label-md text-label-md font-bold cursor-pointer hover:bg-primary-container/80 transition-colors">
+                        AD
+                    </div>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 space-y-section-gap">
+<!-- Bento Grid: Stats & Alerts -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-gutter">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-card-padding shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-xl group-hover:bg-primary/10 transition-colors"></div>
+<div class="flex justify-between items-start mb-2 relative z-10">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Active Packages</p>
+<span class="material-symbols-outlined text-primary/70 text-[20px]">inventory_2</span>
+</div>
+<div class="flex items-baseline gap-2 relative z-10">
+<h3 class="font-h1 text-h1 text-on-surface">342</h3>
+<span class="font-label-sm text-label-sm text-secondary-container flex items-center"><span class="material-symbols-outlined text-[14px]">arrow_upward</span> 12%</span>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-card-padding shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-secondary/5 rounded-full blur-xl group-hover:bg-secondary/10 transition-colors"></div>
+<div class="flex justify-between items-start mb-2 relative z-10">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Low Quota Alerts</p>
+<span class="material-symbols-outlined text-secondary/70 text-[20px]">warning</span>
+</div>
+<div class="flex items-baseline gap-2 relative z-10">
+<h3 class="font-h1 text-h1 text-on-surface">18</h3>
+<span class="font-label-sm text-label-sm text-error flex items-center">Action Needed</span>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-card-padding shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-tertiary/5 rounded-full blur-xl group-hover:bg-tertiary/10 transition-colors"></div>
+<div class="flex justify-between items-start mb-2 relative z-10">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Pending Verifications</p>
+<span class="material-symbols-outlined text-tertiary/70 text-[20px]">fact_check</span>
+</div>
+<div class="flex items-baseline gap-2 relative z-10">
+<h3 class="font-h1 text-h1 text-on-surface">3</h3>
+<button class="ml-auto font-label-sm text-label-sm text-primary hover:underline cursor-pointer" onclick="document.getElementById('verificationDrawer').classList.remove('translate-x-full'); document.getElementById('drawerOverlay').classList.remove('hidden');">Review Now</button>
+</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-card-padding shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-xl group-hover:bg-primary/10 transition-colors"></div>
+<div class="flex justify-between items-start mb-2 relative z-10">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Total Sessions Delivered</p>
+<span class="material-symbols-outlined text-primary/70 text-[20px]">history_edu</span>
+</div>
+<div class="flex items-baseline gap-2 relative z-10">
+<h3 class="font-h1 text-h1 text-on-surface">1,204</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">This Month</span>
+</div>
+</div>
+</div>
+<!-- Main Layout: Table + Audit Log -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-gutter">
+<!-- Package Ledger Table (Takes 2 columns on large screens) -->
+<div class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant/30 rounded-xl shadow-sm flex flex-col h-[600px] overflow-hidden">
+<div class="p-card-padding border-b border-outline-variant/30 flex justify-between items-center bg-surface-bright/50">
+<div>
+<h3 class="font-h3 text-h3 text-on-surface">Active Packages</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Manage student session quotas and payment status.</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+<button class="px-4 py-2 bg-secondary text-on-secondary rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-secondary/90 transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                New Package
+                            </button>
+</div>
+</div>
+<div class="flex-1 overflow-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-variant/30 sticky top-0 z-10 backdrop-blur-sm">
+<tr>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-semibold border-b border-outline-variant/30 whitespace-nowrap">Student</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-semibold border-b border-outline-variant/30 whitespace-nowrap">Package Type</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-semibold border-b border-outline-variant/30 whitespace-nowrap">Quota (Total/Used/Rem)</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-semibold border-b border-outline-variant/30 whitespace-nowrap">Payment</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-semibold border-b border-outline-variant/30 whitespace-nowrap">Expiry</th>
+<th class="py-3 px-4 font-label-sm text-label-sm text-on-surface-variant font-semibold border-b border-outline-variant/30 text-right whitespace-nowrap">Action</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface">
+<!-- Row 1 -->
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-label-md font-bold">JD</div>
+<div>
+<div class="font-medium">Jonas Doe</div>
+<div class="text-[12px] text-on-surface-variant">ID: ST-8492</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-tertiary-container text-on-tertiary-container font-label-sm text-[11px] font-bold tracking-wide uppercase">Intensive Math (8)</span>
+</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-24 h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 75%"></div>
+</div>
+<span class="font-mono text-xs">8 / 6 / <span class="font-bold text-error">2</span></span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1 text-primary"><span class="material-symbols-outlined text-[14px]">check_circle</span> Paid</span>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">Nov 15, 2023</td>
+<td class="py-3 px-4 text-right">
+<button class="p-1 rounded hover:bg-outline-variant/30 text-outline group-hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<img alt="Student" class="w-8 h-8 rounded-full object-cover" data-alt="A small circular avatar of a young female student, smiling, against a soft pastel background. Professional corporate modern style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnDvXVn6QxqLGvFGZiflz3baxtyd7FJ9xzbrTeAQ6BpA-y-25gK82nVsyhNtdWN0TWFXUxzQcvuIAr08-XLhQ2vI5ScheLlckoRzOMnySfrnTmgtEs-x1QPWRQvquv8fgTNLpPPDTTbSQhNlvPc1gSiNMMRwHinxfzRS7-ZsyebpvKqTZ1IOitR1yYHE5m2Ldb6T-sBQCs2Y8NHbFN_-vs2hgR7nE525AAusbYIt--eswMr9MELZNZ"/>
+<div>
+<div class="font-medium">Sarah Smith</div>
+<div class="text-[12px] text-on-surface-variant">ID: ST-8493</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-secondary-container/30 text-on-secondary-container font-label-sm text-[11px] font-bold tracking-wide uppercase border border-secondary-container">Standard Sci (4)</span>
+</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-24 h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 25%"></div>
+</div>
+<span class="font-mono text-xs">4 / 1 / <span class="font-bold">3</span></span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1 text-secondary-container"><span class="material-symbols-outlined text-[14px]">pending</span> Pending</span>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">Dec 01, 2023</td>
+<td class="py-3 px-4 text-right">
+<button class="p-1 rounded hover:bg-outline-variant/30 text-outline group-hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-label-md font-bold">ML</div>
+<div>
+<div class="font-medium">Mike Lee</div>
+<div class="text-[12px] text-on-surface-variant">ID: ST-8494</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-primary-container text-on-primary-container font-label-sm text-[11px] font-bold tracking-wide uppercase">Premium Block (12)</span>
+</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-24 h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 100%"></div>
+</div>
+<span class="font-mono text-xs">12 / 12 / <span class="font-bold text-error">0</span></span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1 text-primary"><span class="material-symbols-outlined text-[14px]">check_circle</span> Paid</span>
+</td>
+<td class="py-3 px-4 text-error font-medium">Expired</td>
+<td class="py-3 px-4 text-right">
+<button class="px-2 py-1 bg-surface border border-outline-variant rounded text-[11px] font-medium text-on-surface hover:bg-surface-variant transition-colors">Renew</button>
+</td>
+</tr>
+<!-- Add more rows as needed for visual density -->
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors group">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-label-md font-bold">AK</div>
+<div>
+<div class="font-medium">Anna Kim</div>
+<div class="text-[12px] text-on-surface-variant">ID: ST-8495</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center px-2 py-1 rounded-md bg-secondary-container/30 text-on-secondary-container font-label-sm text-[11px] font-bold tracking-wide uppercase border border-secondary-container">Standard Eng (4)</span>
+</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-2">
+<div class="w-24 h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 50%"></div>
+</div>
+<span class="font-mono text-xs">4 / 2 / <span class="font-bold">2</span></span>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1 text-primary"><span class="material-symbols-outlined text-[14px]">check_circle</span> Paid</span>
+</td>
+<td class="py-3 px-4 text-on-surface-variant">Nov 28, 2023</td>
+<td class="py-3 px-4 text-right">
+<button class="p-1 rounded hover:bg-outline-variant/30 text-outline group-hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-3 border-t border-outline-variant/30 bg-surface flex justify-between items-center text-xs text-on-surface-variant">
+<span>Showing 1-4 of 342 packages</span>
+<div class="flex gap-1">
+<button class="p-1 rounded hover:bg-surface-variant disabled:opacity-50" disabled=""><span class="material-symbols-outlined text-[18px]">chevron_left</span></button>
+<button class="p-1 rounded hover:bg-surface-variant"><span class="material-symbols-outlined text-[18px]">chevron_right</span></button>
+</div>
+</div>
+</div>
+<!-- Quota Audit Ledger (Right Column) -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl shadow-sm flex flex-col h-[600px] overflow-hidden">
+<div class="p-card-padding border-b border-outline-variant/30 bg-surface-bright/50 flex justify-between items-center">
+<div>
+<h3 class="font-h3 text-h3 text-on-surface">Quota Audit</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Real-time ledger events.</p>
+</div>
+<button class="text-primary hover:text-primary-container transition-colors"><span class="material-symbols-outlined text-[20px]">sync</span></button>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-4">
+<!-- Event Item: Addition -->
+<div class="flex gap-3 relative before:absolute before:left-[15px] before:top-8 before:bottom-[-24px] before:w-px before:bg-outline-variant/40 last:before:hidden">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant/50 flex items-center justify-center shrink-0 z-10">
+<span class="material-symbols-outlined text-[16px] text-primary">add_shopping_cart</span>
+</div>
+<div class="flex-1 bg-surface rounded-lg p-3 border border-outline-variant/20 shadow-sm">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Package Purchased</span>
+<span class="text-[10px] text-on-surface-variant">10:42 AM</span>
+</div>
+<p class="font-body-sm text-[13px] text-on-surface-variant">Jonas Doe (ST-8492)</p>
+<div class="mt-2 flex items-center gap-2">
+<span class="px-2 py-0.5 bg-primary/10 text-primary rounded font-mono text-[11px] font-bold">+8 Sessions</span>
+<span class="text-[11px] text-on-surface-variant">Intensive Math</span>
+</div>
+</div>
+</div>
+<!-- Event Item: Deduction -->
+<div class="flex gap-3 relative before:absolute before:left-[15px] before:top-8 before:bottom-[-24px] before:w-px before:bg-outline-variant/40 last:before:hidden">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant/50 flex items-center justify-center shrink-0 z-10">
+<span class="material-symbols-outlined text-[16px] text-secondary">history_edu</span>
+</div>
+<div class="flex-1 bg-surface rounded-lg p-3 border border-outline-variant/20 shadow-sm">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Session Deducted</span>
+<span class="text-[10px] text-on-surface-variant">09:15 AM</span>
+</div>
+<p class="font-body-sm text-[13px] text-on-surface-variant">Sarah Smith (ST-8493)</p>
+<div class="mt-2 flex items-center gap-2">
+<span class="px-2 py-0.5 bg-surface-variant text-on-surface-variant rounded font-mono text-[11px] font-bold">-1 Session</span>
+<span class="text-[11px] text-on-surface-variant">Completed with Tutor A.</span>
+</div>
+</div>
+</div>
+<!-- Event Item: Deduction -->
+<div class="flex gap-3 relative before:absolute before:left-[15px] before:top-8 before:bottom-[-24px] before:w-px before:bg-outline-variant/40 last:before:hidden">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant/50 flex items-center justify-center shrink-0 z-10">
+<span class="material-symbols-outlined text-[16px] text-secondary">history_edu</span>
+</div>
+<div class="flex-1 bg-surface rounded-lg p-3 border border-outline-variant/20 shadow-sm">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Session Deducted</span>
+<span class="text-[10px] text-on-surface-variant">Yesterday</span>
+</div>
+<p class="font-body-sm text-[13px] text-on-surface-variant">Mike Lee (ST-8494)</p>
+<div class="mt-2 flex items-center gap-2">
+<span class="px-2 py-0.5 bg-surface-variant text-on-surface-variant rounded font-mono text-[11px] font-bold">-1 Session</span>
+<span class="text-[11px] text-on-surface-variant">Quota reached zero.</span>
+</div>
+</div>
+</div>
+<!-- Event Item: Verification Approved -->
+<div class="flex gap-3 relative before:absolute before:left-[15px] before:top-8 before:bottom-[-24px] before:w-px before:bg-outline-variant/40 last:before:hidden">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant/50 flex items-center justify-center shrink-0 z-10">
+<span class="material-symbols-outlined text-[16px] text-primary">verified</span>
+</div>
+<div class="flex-1 bg-surface rounded-lg p-3 border border-outline-variant/20 shadow-sm">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Payment Verified</span>
+<span class="text-[10px] text-on-surface-variant">Yesterday</span>
+</div>
+<p class="font-body-sm text-[13px] text-on-surface-variant">Admin AD approved manual transfer.</p>
+<div class="mt-2 flex items-center gap-2">
+<span class="px-2 py-0.5 bg-primary/10 text-primary rounded font-mono text-[11px] font-bold">INV-9921</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-3 border-t border-outline-variant/30 bg-surface text-center">
+<button class="text-[12px] font-medium text-primary hover:underline">View Full Ledger</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Bottom Navigation -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-2 h-16 bg-surface dark:bg-surface-dim border-t border-outline-variant shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-16" href="#">
+<span class="material-symbols-outlined text-[24px]">event_note</span>
+<span class="font-label-sm text-[10px] mt-1">Schedule</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-16" href="#">
+<span class="material-symbols-outlined text-[24px]">history</span>
+<span class="font-label-sm text-[10px] mt-1">History</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl px-4 py-1 w-20 scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-label-sm text-[10px] mt-1">Payments</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant w-16" href="#">
+<span class="material-symbols-outlined text-[24px]">account_circle</span>
+<span class="font-label-sm text-[10px] mt-1">Profile</span>
+</a>
+</nav>
+<!-- Drawer Overlay -->
+<div class="fixed inset-0 bg-on-background/40 backdrop-blur-[2px] z-50 hidden transition-opacity" id="drawerOverlay" onclick="document.getElementById('verificationDrawer').classList.add('translate-x-full'); this.classList.add('hidden');"></div>
+<!-- Manual Payment Verification Drawer -->
+<div class="fixed top-0 right-0 h-full w-full max-w-md bg-surface shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col border-l border-outline-variant/30" id="verificationDrawer">
+<!-- Drawer Header -->
+<div class="px-6 py-4 border-b border-outline-variant/30 flex justify-between items-center bg-surface-bright">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">fact_check</span>
+<h2 class="font-h3 text-h3 text-on-surface">Payment Verification</h2>
+</div>
+<button class="p-2 rounded-full hover:bg-surface-variant transition-colors text-on-surface-variant" onclick="document.getElementById('verificationDrawer').classList.add('translate-x-full'); document.getElementById('drawerOverlay').classList.add('hidden');">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Drawer Content -->
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<!-- Context Info -->
+<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/20">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Pending Approval</p>
+<h4 class="font-h3 text-[18px] text-on-surface mt-1">Sarah Smith</h4>
+<p class="font-body-sm text-[13px] text-on-surface-variant">ID: ST-8493</p>
+</div>
+<span class="px-2 py-1 bg-tertiary-container/20 text-tertiary-container rounded font-mono text-[12px] font-bold border border-tertiary-container/30">INV-8832</span>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-outline-variant/30">
+<div>
+<p class="font-label-sm text-[11px] text-on-surface-variant">Package Requested</p>
+<p class="font-body-sm font-medium text-on-surface">Standard Sci (4)</p>
+</div>
+<div>
+<p class="font-label-sm text-[11px] text-on-surface-variant">Amount Declared</p>
+<p class="font-body-sm font-medium text-on-surface">$240.00</p>
+</div>
+<div>
+<p class="font-label-sm text-[11px] text-on-surface-variant">Payment Method</p>
+<p class="font-body-sm font-medium text-on-surface">Bank Transfer</p>
+</div>
+<div>
+<p class="font-label-sm text-[11px] text-on-surface-variant">Submitted On</p>
+<p class="font-body-sm font-medium text-on-surface">Dec 01, 2023 - 14:32</p>
+</div>
+</div>
+</div>
+<!-- Image Preview -->
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span> Uploaded Receipt
+                </h4>
+<div class="bg-surface-variant/50 border border-outline-variant/40 rounded-xl p-2 relative group cursor-pointer overflow-hidden">
+<!-- Fake Receipt Image -->
+<div class="bg-cover bg-center w-full h-72 rounded-lg border border-outline-variant/30 shadow-inner" data-alt="A macro, top-down photograph of a slightly crumpled bank transfer receipt resting on a clean white desk. The receipt shows printed text and numbers, slightly blurry at the edges indicating shallow depth of field. Professional, bright lighting typical of an office setting, corporate modern style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD2fqf9qQI_FTQt4Yu8D7kFyPFvnijadGeFbiqTcAWsZOdc6v7n1_mzANzIQeK3wpMSkRVvISFLojxWAruAbYUSzcqVjmqPBDW6cpNI2QTanNRzLfLgXxleJajvq-ChqI7vJocb4hRvW5UxbjZz6SOu2jgXDyAXy3iBM0wWQAvJLYR4XcaV9YdsNUDuJ9BkPazpazjCWXfWqu3uRczNqNmgaRRNgxgOqIDBjTW67BAjFInDt9JUG0h8')"></div>
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors flex items-center justify-center rounded-xl">
+<span class="material-symbols-outlined text-on-primary opacity-0 group-hover:opacity-100 bg-primary/50 p-3 rounded-full backdrop-blur-sm transition-all transform scale-90 group-hover:scale-100">zoom_in</span>
+</div>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-2 text-center flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[14px]">info</span> Click image to view full screen
+                </p>
+</div>
+</div>
+<!-- Drawer Footer (Actions) -->
+<div class="p-6 border-t border-outline-variant/30 bg-surface-bright flex gap-3">
+<button class="flex-1 py-3 px-4 border-2 border-error text-error rounded-xl font-label-md font-bold hover:bg-error/5 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">close</span>
+                Reject
+            </button>
+<button class="flex-1 py-3 px-4 bg-primary text-on-primary rounded-xl font-label-md font-bold hover:bg-primary/90 transition-colors shadow-md flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">check</span>
+                Approve &amp; Add Quota
+            </button>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BrainVibes OMS - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#c8c5d0",
+                    "on-primary": "#ffffff",
+                    "outline": "#787680",
+                    "secondary-fixed-dim": "#ffb95f",
+                    "on-secondary-container": "#684000",
+                    "on-primary-fixed-variant": "#444173",
+                    "primary-fixed-dim": "#c4c1fb",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#47464f",
+                    "surface-tint": "#5b598c",
+                    "secondary-container": "#fea619",
+                    "on-secondary-fixed": "#2a1700",
+                    "on-tertiary-fixed": "#250059",
+                    "secondary": "#855300",
+                    "tertiary": "#110031",
+                    "surface-dim": "#cfdaf2",
+                    "surface-container-low": "#f0f3ff",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#653e00",
+                    "primary": "#070235",
+                    "inverse-on-surface": "#ecf1ff",
+                    "primary-fixed": "#e3dfff",
+                    "tertiary-fixed": "#ebddff",
+                    "surface-container-highest": "#d8e3fb",
+                    "on-background": "#111c2d",
+                    "primary-container": "#1e1b4b",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#ffddb8",
+                    "surface-bright": "#f9f9ff",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#c4c1fb",
+                    "on-tertiary-container": "#9e6bff",
+                    "surface-container-high": "#dee8ff",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "surface": "#f9f9ff",
+                    "tertiary-container": "#2d0069",
+                    "on-surface": "#111c2d",
+                    "on-primary-fixed": "#181445",
+                    "background": "#f9f9ff",
+                    "tertiary-fixed-dim": "#d3bbff",
+                    "on-tertiary-fixed-variant": "#5b00c5",
+                    "surface-variant": "#d8e3fb",
+                    "on-tertiary": "#ffffff",
+                    "surface-container": "#e7eeff",
+                    "on-primary-container": "#8683ba",
+                    "inverse-surface": "#263143"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "card-padding": "20px",
+                    "section-gap": "32px",
+                    "base-unit": "4px",
+                    "container-margin": "24px"
+            },
+            "fontFamily": {
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "h1": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "label-sm": [
+                            "Inter"
+                    ],
+                    "h2": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "h1-mobile": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ],
+                    "h3": [
+                            "Plus Jakarta Sans"
+                    ]
+            },
+            "fontSize": {
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "h1": [
+                            "36px",
+                            {
+                                    "lineHeight": "44px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "h2": [
+                            "30px",
+                            {
+                                    "lineHeight": "38px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "h1-mobile": [
+                            "28px",
+                            {
+                                    "lineHeight": "34px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-sm": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "h3": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid #E2E8F0;
+        }
+        .modal-overlay {
+            background: rgba(17, 28, 45, 0.5);
+            backdrop-filter: blur(8px);
+        }
+        
+        /* Custom scrollbar for data tables */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col md:flex-row">
+<!-- Mobile Top Navigation (Visible on md-) -->
+<nav class="md:hidden bg-primary text-on-primary flex justify-between items-center w-full px-container-margin py-base-unit h-16 shadow-sm sticky top-0 z-40">
+<div class="font-h3 text-h3 font-bold text-on-primary">BrainVibes OMS</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined hover:bg-primary-container/50 transition-colors p-2 rounded-full cursor-pointer">notifications</span>
+<img alt="Admin profile photo" class="w-8 h-8 rounded-full object-cover border border-on-primary/30" data-alt="A small circular profile picture of an administrative user in a corporate setting. The person has a friendly but professional expression, wearing smart business casual attire. Lighting is soft and neutral, typical of a modern office environment. Background is blurred out slightly." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuTTztAUhcujWGF6s4QLx67kSgWYgQNg8DBF-GVxuxXhAK-wKF0lojd6LHMPNwlO0X7WFj7D12cojW9Su2HRScC2ltDt6jJV1xCk2V1BAv_6xcpSVZWRREZEjYYmQ8G8MWs33YQx_RJOr4g9b9Et-qfJ3l6tuw2mP4wgJzukn_vJYaeuwLNANR-N59VOwb610FynDptsdRqXkPDPBEnumyAd7JY7wWuE-778tz1VgvGQUdH7whqPAz"/>
+</div>
+</nav>
+<!-- Sidebar Navigation (Desktop) -->
+<aside class="hidden md:flex flex-col w-[280px] h-screen fixed left-0 top-0 bg-primary text-on-primary p-4 shadow-md z-30">
+<div class="flex items-center gap-3 mb-8 px-2">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary font-bold">BV</div>
+<div>
+<h1 class="font-h3 text-h3 font-bold text-on-primary leading-tight">BrainVibes</h1>
+<p class="font-label-sm text-label-sm text-on-primary/70">Operational Management</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1 overflow-y-auto">
+<!-- Active Tab -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-secondary-fixed font-bold bg-primary-container hover:text-secondary-fixed-dim transition-all translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- Inactive Tabs -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-primary/80 hover:bg-primary-container hover:text-secondary-fixed-dim transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+<span class="font-label-md text-label-md">Schedule</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-primary/80 hover:bg-primary-container hover:text-secondary-fixed-dim transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="font-label-md text-label-md">Students</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-primary/80 hover:bg-primary-container hover:text-secondary-fixed-dim transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">school</span>
+<span class="font-label-md text-label-md">Tutors</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-primary/80 hover:bg-primary-container hover:text-secondary-fixed-dim transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="font-label-md text-label-md">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-primary/80 hover:bg-primary-container hover:text-secondary-fixed-dim transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">history_edu</span>
+<span class="font-label-md text-label-md">Attendance</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-primary/80 hover:bg-primary-container hover:text-secondary-fixed-dim transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">list_alt</span>
+<span class="font-label-md text-label-md">Audit</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md text-on-primary/80 hover:bg-primary-container hover:text-secondary-fixed-dim transition-all mt-auto" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-6 pt-4 border-t border-primary-container">
+<button class="w-full py-2.5 bg-secondary-container text-on-secondary-container font-label-md text-label-md rounded-lg shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                Schedule Session
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-[280px] p-container-margin md:p-8 overflow-x-hidden pb-24 md:pb-8">
+<!-- Header -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-section-gap hidden md:flex">
+<div>
+<h2 class="font-h2 text-h2 text-on-background">Admin Operations Dashboard</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Today's overview and live session management.</p>
+</div>
+<!-- TopNavBar (Destkop version, integrated into main layout header area) -->
+<div class="flex items-center gap-6 bg-surface p-2 rounded-xl border border-outline-variant/30 shadow-sm">
+<nav class="flex gap-1">
+<a class="px-4 py-2 bg-primary-container text-on-primary-container font-label-md text-label-md rounded-lg" href="#">Admin</a>
+<a class="px-4 py-2 text-on-surface-variant font-label-md text-label-md rounded-lg hover:bg-surface-container-high transition-colors" href="#">Tutor</a>
+<a class="px-4 py-2 text-on-surface-variant font-label-md text-label-md rounded-lg hover:bg-surface-container-high transition-colors" href="#">Parent</a>
+</nav>
+<div class="w-px h-6 bg-outline-variant/50"></div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<img alt="Admin profile photo" class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A small circular profile picture of an administrative user in a corporate setting. The person has a friendly but professional expression, wearing smart business casual attire. Lighting is soft and neutral, typical of a modern office environment. Background is blurred out slightly." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_9HwfNG7Bi9KZqY2GBJFY4v7setDDI_VKAST7fdJyZIA_EaiiNQDrtebseUt7pB88v8DhdombUYAewU7OHIxy0YqV0sKF-x4NlrPs5TeaL1hWcJFZ9wkBiz_qc4hx00qclC_1iPcZjYL-3J8pMQWXrJSTLLYA8v7GldtJJdhq58_D1Ey5aXVCmHZNit0s6RUKigOO-m6OHZ1oq1xHyLskNrlT5ZlLol62RI0Y9rn264c0EOqbHNSu"/>
+</div>
+</header>
+<!-- KPI Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-section-gap">
+<!-- KPI 1 -->
+<div class="glass-card rounded-xl p-card-padding shadow-sm hover:shadow-md transition-shadow group border-[#E2E8F0] hover:border-primary-container/30">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Today's Sessions</h3>
+<span class="material-symbols-outlined text-primary-container bg-surface-container p-1.5 rounded-md text-[20px]">calendar_today</span>
+</div>
+<div class="font-h1-mobile md:font-h1 text-h1-mobile md:text-h1 text-on-background mb-4">18</div>
+<div class="flex justify-between text-body-sm">
+<div class="flex flex-col items-center">
+<span class="font-label-sm text-secondary">Scheduled</span>
+<span class="font-semibold text-on-background">2</span>
+</div>
+<div class="w-px bg-outline-variant/30"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-sm text-primary">In-Progress</span>
+<span class="font-semibold text-on-background">4</span>
+</div>
+<div class="w-px bg-outline-variant/30"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-sm text-surface-tint">Completed</span>
+<span class="font-semibold text-on-background">12</span>
+</div>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="glass-card rounded-xl p-card-padding shadow-sm hover:shadow-md transition-shadow group border-[#E2E8F0] hover:border-error-container relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-error"></div>
+<div class="flex justify-between items-start mb-2 pl-2">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Attention Required</h3>
+<span class="material-symbols-outlined text-error bg-error-container p-1.5 rounded-md text-[20px]">warning</span>
+</div>
+<div class="font-h1-mobile md:font-h1 text-h1-mobile md:text-h1 text-error mb-4 pl-2">5</div>
+<div class="flex flex-col gap-2 pl-2">
+<div class="flex justify-between items-center text-body-sm bg-error-container/30 px-2 py-1 rounded">
+<span class="text-on-error-container font-medium">Tutor Unavailable</span>
+<span class="font-bold text-error">2</span>
+</div>
+<div class="flex justify-between items-center text-body-sm bg-surface-container px-2 py-1 rounded">
+<span class="text-on-surface-variant">Pending Reschedules</span>
+<span class="font-semibold text-on-background">3</span>
+</div>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="glass-card rounded-xl p-card-padding shadow-sm hover:shadow-md transition-shadow group border-[#E2E8F0] hover:border-primary-container/30">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Active Quota Balance</h3>
+<span class="material-symbols-outlined text-surface-tint bg-surface-container-highest p-1.5 rounded-md text-[20px]">account_balance_wallet</span>
+</div>
+<div class="font-h1-mobile md:font-h1 text-h1-mobile md:text-h1 text-on-background mb-4">420 <span class="text-h3 font-body-md text-outline">hrs</span></div>
+<div class="flex items-center gap-2 mt-auto">
+<span class="material-symbols-outlined text-[16px] text-secondary">trending_up</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Avg 12 hrs/student</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="glass-card rounded-xl p-card-padding shadow-sm hover:shadow-md transition-shadow group border-[#E2E8F0] hover:border-primary-container/30">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Active Users</h3>
+<span class="material-symbols-outlined text-on-primary-fixed-variant bg-primary-fixed-dim p-1.5 rounded-md text-[20px]">people</span>
+</div>
+<div class="flex justify-between items-end mt-4">
+<div>
+<div class="font-h2 text-h2 text-on-background leading-none mb-1">34</div>
+<div class="font-label-sm text-label-sm text-outline uppercase">Tutors</div>
+</div>
+<div class="w-px h-10 bg-outline-variant/50"></div>
+<div class="text-right">
+<div class="font-h2 text-h2 text-on-background leading-none mb-1">112</div>
+<div class="font-label-sm text-label-sm text-outline uppercase">Students</div>
+</div>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full mt-4 overflow-hidden flex">
+<div class="bg-primary-container h-full" style="width: 23%"></div>
+<div class="bg-surface-tint h-full" style="width: 77%"></div>
+</div>
+</div>
+</section>
+<!-- Main Data Table Section -->
+<section class="bg-surface-container-lowest border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden flex flex-col mb-section-gap">
+<div class="p-card-padding border-b border-[#E2E8F0] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white">
+<div>
+<h3 class="font-h3 text-h3 text-on-background">Today's Live Operational Matrix</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Real-time status of all active and upcoming sessions.</p>
+</div>
+<div class="flex items-center gap-2 w-full sm:w-auto">
+<div class="relative w-full sm:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full pl-9 pr-4 py-2 bg-surface-container-low border border-[#E2E8F0] rounded-md font-body-sm focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-colors" placeholder="Search sessions..." type="text"/>
+</div>
+<button class="p-2 border border-[#E2E8F0] rounded-md hover:bg-surface-container transition-colors text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[900px]">
+<thead>
+<tr class="bg-[#F1F5F9] border-b border-[#E2E8F0]">
+<th class="px-4 py-3 font-label-md text-label-md text-on-surface-variant font-medium">Time</th>
+<th class="px-4 py-3 font-label-md text-label-md text-on-surface-variant font-medium">Student / Subject</th>
+<th class="px-4 py-3 font-label-md text-label-md text-on-surface-variant font-medium">Tutor</th>
+<th class="px-4 py-3 font-label-md text-label-md text-on-surface-variant font-medium">Location</th>
+<th class="px-4 py-3 font-label-md text-label-md text-on-surface-variant font-medium">Status</th>
+<th class="px-4 py-3 font-label-md text-label-md text-on-surface-variant font-medium">GPS</th>
+<th class="px-4 py-3 font-label-md text-label-md text-on-surface-variant font-medium text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-on-background divide-y divide-[#E2E8F0]">
+<!-- Row 1: Active -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-4 py-3 whitespace-nowrap">
+<div class="font-medium">10:00 AM</div>
+<div class="text-outline text-xs">2h duration</div>
+</td>
+<td class="px-4 py-3">
+<div class="font-medium text-primary-container">Emma Watson</div>
+<div class="text-on-surface-variant text-xs">A-Level Mathematics</div>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-2">
+<img alt="Tutor" class="w-6 h-6 rounded-full object-cover" data-alt="A small circular profile picture of a young male tutor. He looks approachable and intelligent, wearing glasses and a neat collared shirt. Soft, natural lighting. Plain light background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGO5s7yxPQNA5PS0CzAhxLCqWgj2TsB-np7vfJkar4d9QafjGxRu_424Mcg4hecUKw0x64lwZXIDBIYkVwvGDRjg8PajyPU5ucHLQRHYeFiRN5D7tkPoVPyVDtwwav8f1PV-kVd7d0wrnixXREgtxdU8BeGfH1OZVwI_2HGFJEen0Iwb0uuug_gxYVID8O5gra0-z4fnqRnkJfQTLuAcruU7y_1kadWWZ-ILVvuHVx43ZAHwtoi5hG"/>
+<span>James Smith</span>
+</div>
+</td>
+<td class="px-4 py-3 max-w-[150px] truncate" title="142 Baker St, London">
+                                142 Baker St, London
+                            </td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-surface-container-highest text-surface-tint border border-surface-tint/20">
+                                    In Progress
+                                </span>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-1 text-emerald-600" title="GPS Verified at Location">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="text-xs font-medium">Valid</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<button class="text-outline hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: Warning / Action Required (Tutor Unavailable) -->
+<tr class="bg-error-container/10 hover:bg-error-container/20 transition-colors border-l-4 border-l-error">
+<td class="px-4 py-3 whitespace-nowrap">
+<div class="font-medium">11:30 AM</div>
+<div class="text-outline text-xs">1.5h duration</div>
+</td>
+<td class="px-4 py-3">
+<div class="font-medium text-primary-container">Lucas Grey</div>
+<div class="text-on-surface-variant text-xs">GCSE Physics</div>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-2 text-error">
+<span class="material-symbols-outlined text-[18px]">person_off</span>
+<span class="font-medium">Sarah Jenkins</span>
+</div>
+</td>
+<td class="px-4 py-3 max-w-[150px] truncate">
+                                Online (Zoom)
+                            </td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-error text-on-error">
+                                    Unavailable
+                                </span>
+</td>
+<td class="px-4 py-3">
+<span class="text-outline text-xs">-</span>
+</td>
+<td class="px-4 py-3 text-right">
+<button class="px-3 py-1 bg-error text-on-error text-xs font-medium rounded hover:bg-error/90 transition-colors shadow-sm" onclick="document.getElementById('resolution-modal').classList.remove('hidden')">
+                                    Resolve
+                                </button>
+</td>
+</tr>
+<!-- Row 3: Scheduled -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-4 py-3 whitespace-nowrap">
+<div class="font-medium">2:00 PM</div>
+<div class="text-outline text-xs">1h duration</div>
+</td>
+<td class="px-4 py-3">
+<div class="font-medium text-primary-container">Mia Wong</div>
+<div class="text-on-surface-variant text-xs">Primary English</div>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center text-xs font-bold text-surface-tint">AK</div>
+<span>Anita Patel</span>
+</div>
+</td>
+<td class="px-4 py-3 max-w-[150px] truncate" title="78 High St, Manchester">
+                                78 High St, Manchester
+                            </td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-surface-container text-on-surface-variant border border-outline-variant/30">
+                                    Scheduled
+                                </span>
+</td>
+<td class="px-4 py-3">
+<span class="text-outline text-xs">Pending</span>
+</td>
+<td class="px-4 py-3 text-right">
+<button class="text-outline hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Scheduled Warning -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-4 py-3 whitespace-nowrap">
+<div class="font-medium">3:30 PM</div>
+<div class="text-outline text-xs">2h duration</div>
+</td>
+<td class="px-4 py-3">
+<div class="font-medium text-primary-container">Oliver Twist</div>
+<div class="text-on-surface-variant text-xs">A-Level History</div>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-2">
+<img alt="Tutor" class="w-6 h-6 rounded-full object-cover" data-alt="A small circular profile picture of an older male tutor. He has a wise, friendly face with a short gray beard. Wearing a tweed jacket. Soft library-like lighting in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-Rp2DcmZku2TCORQQA8L5Ycc8k7K1itlkQpsX8sKpHm4yCTGxGgW-znDayKrrmwZS7_BZZKBN-yDLCLWXxay9AcnfKBlWyYDyqU3nGZtT-bUFnHTKWMLIRoP0yq1-JBNvNas6CN9sJSTj3SCeV4jbq6uuo5D86mKSEnsqoupEb_bPiHgHIL7m4faEf7ZGcnRbF2naDveSo0B6-EIf1zOxwvoXJ0CY1u0UVsH9qXrosgLgQGWcra6O"/>
+<span>David Copperfield</span>
+</div>
+</td>
+<td class="px-4 py-3 max-w-[150px] truncate" title="44 Victoria Rd, Birmingham">
+                                44 Victoria Rd, Birming...
+                            </td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-surface-container text-on-surface-variant border border-outline-variant/30">
+                                    Scheduled
+                                </span>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-1 text-secondary" title="Tutor is far from location">
+<span class="material-symbols-outlined text-[16px]">distance</span>
+<span class="text-xs font-medium">Far</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<button class="text-outline hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Footer -->
+<div class="px-4 py-3 border-t border-[#E2E8F0] flex justify-between items-center bg-surface-bright">
+<span class="font-body-sm text-on-surface-variant">Showing 1 to 4 of 18 entries</span>
+<div class="flex gap-1">
+<button class="p-1 border border-[#E2E8F0] rounded text-outline hover:bg-surface-container disabled:opacity-50"><span class="material-symbols-outlined text-[18px]">chevron_left</span></button>
+<button class="p-1 border border-[#E2E8F0] rounded text-outline hover:bg-surface-container"><span class="material-symbols-outlined text-[18px]">chevron_right</span></button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-2 h-16 bg-surface border-t border-outline-variant shadow-lg rounded-t-xl pb-safe">
+<!-- Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-lg w-16" href="#">
+<span class="material-symbols-outlined text-[24px]">event_note</span>
+<span class="font-label-sm text-label-sm mt-1">Schedule</span>
+</a>
+<!-- Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-lg w-16" href="#">
+<span class="material-symbols-outlined text-[24px]">history</span>
+<span class="font-label-sm text-label-sm mt-1">History</span>
+</a>
+<!-- Dashboard equivalent isn't in JSON array exactly, using Earnings as placeholder for layout as per JSON -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-lg w-16" href="#">
+<span class="material-symbols-outlined text-[24px]">payments</span>
+<span class="font-label-sm text-label-sm mt-1">Earnings</span>
+</a>
+<!-- Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-lg w-16" href="#">
+<span class="material-symbols-outlined text-[24px]">account_circle</span>
+<span class="font-label-sm text-label-sm mt-1">Profile</span>
+</a>
+</nav>
+<!-- Overlay Modal: Handle Tutor Unavailability -->
+<div class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4" id="resolution-modal">
+<!-- Backdrop -->
+<div class="absolute inset-0 modal-overlay" onclick="document.getElementById('resolution-modal').classList.add('hidden')"></div>
+<!-- Modal Content -->
+<div class="relative bg-surface-container-lowest rounded-xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col border border-[#E2E8F0]">
+<!-- Modal Header -->
+<div class="px-6 py-4 border-b border-[#E2E8F0] flex justify-between items-center bg-error-container/10">
+<div class="flex items-center gap-2 text-error">
+<span class="material-symbols-outlined">warning</span>
+<h3 class="font-h3 text-h3 font-bold">Action Required</h3>
+</div>
+<button class="text-outline hover:text-on-background transition-colors" onclick="document.getElementById('resolution-modal').classList.add('hidden')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="p-6">
+<p class="font-body-md text-on-background mb-4">
+                    Tutor <strong class="text-primary-container">Sarah Jenkins</strong> has reported unavailability for the upcoming session with <strong class="text-primary-container">Lucas Grey</strong> at 11:30 AM.
+                </p>
+<div class="space-y-3 mt-6">
+<!-- Option A -->
+<button class="w-full text-left p-4 border border-outline-variant/50 rounded-lg hover:border-primary-container hover:bg-surface-container-low transition-all group flex items-start gap-3">
+<div class="mt-0.5 p-1.5 rounded-full bg-primary-container text-on-primary-container group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-background group-hover:text-primary-container">Assign Substitute Tutor</div>
+<div class="font-body-sm text-outline mt-1">Find available tutors matching GCSE Physics for 11:30 AM.</div>
+</div>
+</button>
+<!-- Option B -->
+<button class="w-full text-left p-4 border border-outline-variant/50 rounded-lg hover:border-error hover:bg-error-container/10 transition-all group flex items-start gap-3">
+<div class="mt-0.5 p-1.5 rounded-full bg-surface-container text-on-surface-variant group-hover:bg-error group-hover:text-on-error transition-colors">
+<span class="material-symbols-outlined text-[16px]">event_busy</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-background group-hover:text-error">Cancel &amp; Reschedule</div>
+<div class="font-body-sm text-outline mt-1">Notify parent/student and return quota balance.</div>
+</div>
+</button>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="px-6 py-4 border-t border-[#E2E8F0] bg-surface-bright flex justify-end gap-2">
+<button class="px-4 py-2 text-on-surface-variant font-label-md text-label-md hover:bg-surface-container rounded-md transition-colors" onclick="document.getElementById('resolution-modal').classList.add('hidden')">
+                    Close
+                </button>
+</div>
+</div>
+</div>
+</body></html>

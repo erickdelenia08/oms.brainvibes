@@ -1,0 +1,510 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum Role {
+  ADMIN
+  TUTOR
+  PARENT
+}
+
+enum TutorStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum RecurringScheduleStatus {
+  ACTIVE
+  PAUSED
+  ENDED
+}
+
+// PRD Section 15 — Session Lifecycle
+enum SessionStatus {
+  SCHEDULED
+  RESCHEDULE_REQUESTED
+  RESCHEDULED
+  SUBSTITUTE_REQUESTED
+  SUBSTITUTE_ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+// PRD Section 11-12
+enum RescheduleStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// PRD Section 16 — Attendance validity based on GPS radius
+enum AttendanceStatus {
+  VALID
+  WARNING
+  REJECTED
+}
+
+// PRD Section 22 — Package Management
+enum PackageStatus {
+  ACTIVE
+  EXPIRED
+  EXHAUSTED
+}
+
+// PRD Section 23 — Payment Verification
+enum PaymentStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+// PRD Section 20-21 — Quota Ledger entry types
+enum QuotaLedgerType {
+  PACKAGE_ACTIVATION
+  SESSION_COMPLETED
+  ADJUSTMENT
+}
+
+enum NotificationCategory {
+  TUTOR_UNAVAILABLE
+  RESCHEDULE_REQUEST
+  RESCHEDULE_APPROVED
+  RESCHEDULE_REJECTED
+  PAYMENT_PENDING
+  PAYMENT_VERIFIED
+  SUBSTITUTE_ASSIGNED
+  SESSION_CANCELLED
+  SESSION_COMPLETED
+  ATTENDANCE_ISSUE
+  SESSION_CONFLICT
+  UPCOMING_SESSION
+  LEARNING_LOG_AVAILABLE
+  QUOTA_LOW
+}
+
+// PRD Section 19 — Understanding scale
+enum UnderstandingLevel {
+  VERY_POOR // 1 - Sangat kurang
+  POOR // 2 - Kurang
+  FAIR // 3 - Cukup
+  GOOD // 4 - Baik
+  EXCELLENT // 5 - Sangat baik
+}
+
+// ============================================================================
+// CORE IDENTITY (PRD Section 5, 6)
+// ============================================================================
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  phone        String?
+  role         Role
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Role-specific profiles (1-1, only one populated depending on `role`)
+  tutorProfile  Tutor?
+  parentProfile Parent?
+
+  // Audit trail — actions this user performed
+  auditLogsAsActor AuditLog[] @relation("AuditActor")
+
+  // Reviewer relations
+  reviewedReschedules   RescheduleRequest[]    @relation("RescheduleReviewer")
+  reviewedPayments      Payment[]              @relation("PaymentReviewer")
+  createdQuotaLedgers   QuotaLedger[]          @relation("QuotaLedgerCreatedBy")
+  assignedSubstitutions SubstituteAssignment[] @relation("SubstituteAssignedBy")
+  requestedReschedules  RescheduleRequest[]    @relation("RescheduleRequester")
+
+  notifications Notification[]
+
+  @@index([role])
+}
+
+model Tutor {
+  id        String      @id @default(cuid())
+  userId    String      @unique
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status    TutorStatus @default(ACTIVE)
+  bio       String?     @db.Text
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  subjects           TutorSubject[]
+  recurringSchedules RecurringSchedule[]
+  sessions           Session[]              @relation("SessionTutor")
+  substitutedFrom    SubstituteAssignment[] @relation("OriginalTutor")
+  substitutedTo      SubstituteAssignment[] @relation("SubstituteTutor")
+  attendances        Attendance[]
+
+  @@index([status])
+}
+
+model Parent {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  students Student[]
+}
+
+model Student {
+  id        String   @id @default(cuid())
+  parentId  String
+  parent    Parent   @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  name      String
+  grade     String? // e.g. "SD 4", "SMA 11 IPA"
+  school    String?
+  notes     String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  packages           Package[]
+  recurringSchedules RecurringSchedule[]
+  sessions           Session[]
+
+  @@index([parentId])
+}
+
+// ============================================================================
+// REFERENCE DATA
+// ============================================================================
+
+model Subject {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  tutors             TutorSubject[]
+  recurringSchedules RecurringSchedule[]
+  sessions           Session[]
+}
+
+model TutorSubject {
+  tutorId   String
+  tutor     Tutor   @relation(fields: [tutorId], references: [id], onDelete: Cascade)
+  subjectId String
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@id([tutorId, subjectId])
+}
+
+model Location {
+  id           String   @id @default(cuid())
+  name         String
+  address      String   @db.Text
+  latitude     Float
+  longitude    Float
+  radiusMeters Int      @default(100) // configurable per PRD Section 16
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  recurringSchedules RecurringSchedule[]
+  sessions           Session[]
+}
+
+// ============================================================================
+// PACKAGE & PAYMENT (PRD Section 22-23)
+// ============================================================================
+
+model Package {
+  id         String        @id @default(cuid())
+  studentId  String
+  student    Student       @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  name       String
+  quota      Int
+  price      Decimal       @db.Decimal(12, 2)
+  startDate  DateTime
+  expiryDate DateTime
+  status     PackageStatus @default(ACTIVE)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  payment            Payment?
+  quotaLedgerEntries QuotaLedger[]
+
+  @@index([studentId])
+  @@index([status])
+}
+
+model Payment {
+  id           String        @id @default(cuid())
+  packageId    String        @unique
+  package      Package       @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  amount       Decimal       @db.Decimal(12, 2)
+  proofUrl     String?
+  status       PaymentStatus @default(PENDING)
+  reviewedById String?
+  reviewedBy   User?         @relation("PaymentReviewer", fields: [reviewedById], references: [id])
+  reviewedAt   DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([status])
+}
+
+// ============================================================================
+// SCHEDULING (PRD Section 7-9)
+// ============================================================================
+
+model RecurringSchedule {
+  id          String                  @id @default(cuid())
+  studentId   String
+  student     Student                 @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  tutorId     String
+  tutor       Tutor                   @relation(fields: [tutorId], references: [id])
+  subjectId   String
+  subject     Subject                 @relation(fields: [subjectId], references: [id])
+  locationId  String
+  location    Location                @relation(fields: [locationId], references: [id])
+  dayOfWeek   DayOfWeek
+  startTime   String // "16:00" (stored as string to avoid timezone/date coupling)
+  endTime     String // "17:30"
+  periodStart DateTime
+  periodEnd   DateTime
+  status      RecurringScheduleStatus @default(ACTIVE)
+  createdAt   DateTime                @default(now())
+  updatedAt   DateTime                @updatedAt
+
+  sessions Session[]
+
+  @@index([tutorId])
+  @@index([studentId])
+  @@index([status])
+}
+
+// PRD Section 15 — the actual, individually-mutable occurrence
+model Session {
+  id                  String             @id @default(cuid())
+  recurringScheduleId String?
+  recurringSchedule   RecurringSchedule? @relation(fields: [recurringScheduleId], references: [id])
+
+  studentId  String
+  student    Student  @relation(fields: [studentId], references: [id])
+  tutorId    String
+  tutor      Tutor    @relation("SessionTutor", fields: [tutorId], references: [id])
+  subjectId  String
+  subject    Subject  @relation(fields: [subjectId], references: [id])
+  locationId String
+  location   Location @relation(fields: [locationId], references: [id])
+
+  scheduledStart DateTime
+  scheduledEnd   DateTime
+  status         SessionStatus @default(SCHEDULED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rescheduleRequests    RescheduleRequest[]
+  substituteAssignments SubstituteAssignment[]
+  attendance            Attendance?
+  learningLog           LearningLog?
+  quotaLedgerEntries    QuotaLedger[]
+
+  // PRD Section 9 — conflict detection is enforced at the application/service
+  // layer (newStart < existingEnd AND newEnd > existingStart), not via a DB
+  // constraint. These indexes make the overlap query on (tutorId, time range)
+  // and (studentId, time range) efficient.
+  @@index([tutorId, scheduledStart, scheduledEnd])
+  @@index([studentId, scheduledStart, scheduledEnd])
+  @@index([status])
+}
+
+// ============================================================================
+// RESCHEDULE (PRD Section 11-12)
+// ============================================================================
+
+model RescheduleRequest {
+  id          String  @id @default(cuid())
+  sessionId   String
+  session     Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  requesterId String
+  requester   User    @relation("RescheduleRequester", fields: [requesterId], references: [id])
+
+  originalStart  DateTime
+  originalEnd    DateTime
+  requestedStart DateTime
+  requestedEnd   DateTime
+  reason         String           @db.Text
+  status         RescheduleStatus @default(PENDING)
+
+  reviewerId String?
+  reviewer   User?     @relation("RescheduleReviewer", fields: [reviewerId], references: [id])
+  reviewedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sessionId])
+  @@index([status])
+}
+
+// ============================================================================
+// SUBSTITUTE TUTOR (PRD Section 13-14)
+// ============================================================================
+
+model SubstituteAssignment {
+  id                String   @id @default(cuid())
+  sessionId         String
+  session           Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  originalTutorId   String
+  originalTutor     Tutor    @relation("OriginalTutor", fields: [originalTutorId], references: [id])
+  substituteTutorId String
+  substituteTutor   Tutor    @relation("SubstituteTutor", fields: [substituteTutorId], references: [id])
+  reason            String   @db.Text
+  assignedById      String
+  assignedBy        User     @relation("SubstituteAssignedBy", fields: [assignedById], references: [id])
+  assignedAt        DateTime @default(now())
+
+  @@index([sessionId])
+  @@index([originalTutorId])
+  @@index([substituteTutorId])
+}
+
+// ============================================================================
+// ATTENDANCE (PRD Section 16-18)
+// ============================================================================
+
+model Attendance {
+  id        String  @id @default(cuid())
+  sessionId String  @unique
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  tutorId   String
+  tutor     Tutor   @relation(fields: [tutorId], references: [id])
+
+  checkInAt       DateTime
+  checkInLat      Float
+  checkInLng      Float
+  checkInAccuracy Float? // GPS accuracy in meters
+  checkInPhotoUrl String
+  deviceInfo      String?          @db.Text
+  distanceMeters  Float // computed distance from Location
+  status          AttendanceStatus @default(VALID)
+
+  checkOutAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([tutorId])
+  @@index([status])
+}
+
+// ============================================================================
+// LEARNING LOG (PRD Section 19)
+// ============================================================================
+
+model LearningLog {
+  id        String  @id @default(cuid())
+  sessionId String  @unique
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  // Materi
+  chapterTopic    String
+  materialCovered String @db.Text
+
+  // Progress
+  studentProgress String  @db.Text
+  strengths       String? @db.Text
+  difficulties    String? @db.Text
+  tutorNotes      String? @db.Text
+
+  // Understanding
+  understanding UnderstandingLevel
+
+  // Optional
+  homework       String? @db.Text
+  recommendation String? @db.Text
+  nextTopic      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sessionId])
+}
+
+// ============================================================================
+// QUOTA LEDGER (PRD Section 20-21)
+// ============================================================================
+
+model QuotaLedger {
+  id        String   @id @default(cuid())
+  packageId String
+  package   Package  @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  sessionId String? // set when type = SESSION_COMPLETED
+  session   Session? @relation(fields: [sessionId], references: [id])
+
+  type        QuotaLedgerType
+  delta       Int // e.g. +8, -1
+  description String
+  createdById String? // set for ADJUSTMENT entries (Admin who made the correction)
+  createdBy   User?           @relation("QuotaLedgerCreatedBy", fields: [createdById], references: [id])
+  createdAt   DateTime        @default(now())
+
+  @@index([packageId])
+  @@index([sessionId])
+}
+
+// ============================================================================
+// NOTIFICATIONS (PRD Section 24)
+// ============================================================================
+
+model Notification {
+  id        String               @id @default(cuid())
+  userId    String
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category  NotificationCategory
+  title     String
+  message   String               @db.Text
+  isRead    Boolean              @default(false)
+  entityId  String? // optional pointer to related Session/Payment/etc.
+  createdAt DateTime             @default(now())
+
+  @@index([userId, isRead])
+}
+
+// ============================================================================
+// AUDIT TRAIL (PRD Section 29)
+// ============================================================================
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String
+  actor      User     @relation("AuditActor", fields: [actorId], references: [id])
+  action     String // e.g. "SESSION_RESCHEDULED", "QUOTA_ADJUSTED", "PAYMENT_VERIFIED"
+  entityType String // e.g. "Session", "Package", "Payment"
+  entityId   String
+  oldValue   Json?
+  newValue   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([actorId])
+}
