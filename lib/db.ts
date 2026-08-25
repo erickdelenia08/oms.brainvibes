@@ -1,24 +1,39 @@
 import { PrismaClient } from "@/prisma/generated/client";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 
-// Menyiapkan variabel global agar koneksi tidak terbuat berulang kali saat Fast Refresh/Hot Reload
 const globalForPrisma = globalThis as unknown as {
     prisma: PrismaClient | undefined;
 };
 
-// Inisialisasi adapter dengan konfigurasi database kamu
+// Validasi ENV yang wajib ada
+const requiredEnv = [
+    "DB_HOST",
+    "DB_PORT",
+    "DB_USER",
+    "DB_PASSWORD",
+    "DB_NAME",
+] as const;
+
+for (const key of requiredEnv) {
+    if (!process.env[key]) {
+        throw new Error(`Missing environment variable: ${key}`);
+    }
+}
+
 const adapter = new PrismaMariaDb({
-    host: process.env.DB_HOST || "oms-brainvibes-oms-brainvibes.b.aivencloud.com",
-    port: Number(process.env.DB_PORT) || 20898,
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),
     connectionLimit: 5,
-    user: process.env.DB_USER || "avnadmin",
-    password: process.env.DB_PASSWORD, // Disarankan diambil dari .env
-    database: process.env.DB_NAME || "defaultdb",
-    ssl: { rejectUnauthorized: false } // Wajib untuk MySQL Aiven
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    ssl: {
+        rejectUnauthorized: false,
+    },
 });
 
-// Gunakan instansi yang sudah ada jika tersedia, atau buat baru
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter });
+export const prisma =
+    globalForPrisma.prisma ?? new PrismaClient({ adapter });
 
 if (process.env.NODE_ENV !== "production") {
     globalForPrisma.prisma = prisma;
