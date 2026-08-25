@@ -8,7 +8,7 @@ async function main() {
   console.log("Seeding initial admin user...");
 
   const existingAdmin = await prisma.user.findUnique({
-    where: { email: 'tentor@brainvibes.com' }
+    where: { email: 'tutor@brainvibes.com' }
   })
 
   if (existingAdmin) {
@@ -20,10 +20,10 @@ async function main() {
 
   await prisma.user.create({
     data: {
-      email: 'parent@brainvibes.com',
+      email: 'tutor@brainvibes.com',
       passwordHash: hashedPassword,
-      name: 'nama parent',
-      role: Role.PARENT,
+      name: 'nama tutor',
+      role: Role.TUTOR,
       isActive: true,
     }
   })

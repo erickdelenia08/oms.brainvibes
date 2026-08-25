@@ -99,7 +99,7 @@ import { useRouter } from "next/navigation";
 const DUMMY_ACCOUNTS = [
   { role: "Admin", email: "admin@brainvibes.com", password: "password" },
   { role: "Manager", email: "tutor@brainvibes.com", password: "password" },
-  { role: "Staff", email: "parent@brainvibes.com", password: "password" },
+  { role: "Parent", email: "parent@brainvibes.com", password: "password" },
 ];
 
 export default function LoginPage() {
