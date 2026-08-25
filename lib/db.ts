@@ -35,6 +35,7 @@ const adapter = new PrismaMariaDb({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
+    connectTimeout: 5000,   // <-- tambahkan baris ini
     ssl: {
         rejectUnauthorized: false,
     },
