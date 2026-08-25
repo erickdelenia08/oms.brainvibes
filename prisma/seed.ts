@@ -1,16 +1,8 @@
-import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import { PrismaClient, Role } from "@/prisma/generated/client";
-import bcrypt from "bcryptjs";
 
-const adapter = new PrismaMariaDb({
-  host: "localhost",
-  port: 3306,
-  connectionLimit: 5,
-  user: "root",
-  password: "",
-  database: "brain_vibes_db",
-});
-const prisma = new PrismaClient({ adapter });
+import { Role } from "@/prisma/generated/client";
+import bcrypt from "bcryptjs";
+import { prisma } from "@/lib/db"
+
 
 async function main() {
   console.log("Seeding initial admin user...");
@@ -28,10 +20,10 @@ async function main() {
 
   await prisma.user.create({
     data: {
-      email: 'tentor@brainvibes.com',
+      email: 'parent@brainvibes.com',
       passwordHash: hashedPassword,
-      name: 'Parent',
-      role: Role.TUTOR,
+      name: 'nama parent',
+      role: Role.PARENT,
       isActive: true,
     }
   })

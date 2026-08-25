@@ -1,18 +1,6 @@
 import bcrypt from "bcryptjs";
 import { LoginInput } from "./auth.schema";
-import { PrismaClient } from "@/prisma/generated/client";
-import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-
-const adapter = new PrismaMariaDb({
-  host: "localhost",
-  port: 3306,
-  connectionLimit: 5,
-  user: "root",
-  password: "",
-  database: "brain_vibes_db",
-});
-
-const prisma = new PrismaClient({ adapter });
+import { prisma } from "@/lib/db"
 
 export class AuthService {
   static async verifyCredentials(credentials: LoginInput) {
