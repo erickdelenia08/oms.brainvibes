@@ -14,6 +14,14 @@ const requiredEnv = [
     "DB_NAME",
 ] as const;
 
+console.log("[DB CONFIG]", {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    database: process.env.DB_NAME,
+    hasPassword: !!process.env.DB_PASSWORD,
+});
+
 for (const key of requiredEnv) {
     if (!process.env[key]) {
         throw new Error(`Missing environment variable: ${key}`);
