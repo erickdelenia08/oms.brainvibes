@@ -14,14 +14,30 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         try {
-          const { email, password } = await loginSchema.parseAsync(credentials);
-          
-          const user = await AuthService.verifyCredentials({ email, password });
-          
+          console.log("[AUTH] Starting login");
+
+          const { email, password } =
+            await loginSchema.parseAsync(credentials);
+
+          console.log("[AUTH] Schema valid:", email);
+
+          const user = await AuthService.verifyCredentials({
+            email,
+            password,
+          });
+
+          console.log("[AUTH] Verify result:", {
+            found: !!user,
+            userId: user?.id,
+          });
+
           if (!user) {
+            console.log("[AUTH] Invalid email or password");
             return null;
           }
-          
+
+          console.log("[AUTH] Login successful:", user.email);
+
           return {
             id: user.id,
             email: user.email,
@@ -29,6 +45,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             role: user.role,
           };
         } catch (error) {
+          console.error("[AUTH] ERROR:", error);
+
           return null;
         }
       },
